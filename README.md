@@ -5,12 +5,12 @@ couple important chapters to go over the core concepts of localization.
 
 ## Part 1
 
-[ ] Recursive State Estimation
-[ ] Gaussian Filters
-[ ] Nonparametric Filters
-[ ] Robot Perception
+- [ ] Recursive State Estimation
+- [ ] Gaussian Filters
+- [ ] Nonparametric Filters
+- [ ] Robot Perception
 
 ## Part 2
 
-[ ] Mobile Robot Localization: Markov & Gaussian
-[ ] Mobile Robot Localization: Grid & Monte Carlo
+- [ ] Mobile Robot Localization: Markov & Gaussian
+- [ ] Mobile Robot Localization: Grid & Monte Carlo
