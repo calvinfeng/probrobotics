@@ -9,9 +9,7 @@
   * [Robot Environment Interaction](notes/recursive-state-estimation/02_robot_environment_interaction.md)
   * [Bayes Filters](notes/recursive-state-estimation/03_bayes_filters.md)
 
-## Implementation
+## Implementations
 
-* [Example 1](implementation/example-1.md)
-* [Example 2](implementation/example-2.md)
-* [Example 3](implementation/example-3.md)
+* [Example 1](implementation/01_example.md)
 
