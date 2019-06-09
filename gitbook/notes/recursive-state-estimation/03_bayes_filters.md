@@ -145,3 +145,70 @@ It seems impressive that we have a 98.3% of confidence that the door is opened a
 
 ### Mathematical Derivation
 
+We need to show that the posterior distribution $$p(x_{t} \mid z_{1:t}, u_{1:t})$$can be calculated from the corresponding posterior distribution one time step earlier, $$p(x_{t-1} \mid z_{1:t-1}, u_{1:t-1})$$ in order to prove the correctness of Bayes filter algorithm by induction.  Let's assume that we correctly initialized the prior belief $$bel(x_{0})$$ at time $$t = 0$$ and state $$X$$is complete. 
+
+Applying Bayes rule on $$p(x_{t} \mid z_{1:t}, u_{1:t})$$
+
+$$
+\tag{1} p(x_{t} \mid z_{1:t}, u_{1:t}) = \frac
+{p(z_{t} \mid x_{t}, z_{1:t-1}, u_{1:t-1})\;p(x_{t} \mid z_{1:t-1}, u_{1:t})}
+{p(z_{t} \mid z_{1:t-1}, u_{1:t})}
+$$
+
+We can find the normalizer $$\eta$$ by integrating over all the possible $$x_{t}$$ values, just like we did before in example above.  Now we can exploit the fact that $$x_{t-1}$$ is complete. We are interested in predicting the measurement values. There are no past measurement or control would provide us additional information. This can be expressed by the following conditional independence.
+
+$$
+\tag{1a} p(z_{t} \mid x_{t}, z_{1:t-1}, u_{1:t}) = p(z_{t} \mid x_{t})
+$$
+
+Then we can simplify the the equation 1 as follows.
+
+$$
+\tag{2} p(x_{t} \mid z_{1:t}, u_{1:t}) = \eta \; p(z_{t} \mid x_{t}) \; p(x_{t} \mid z_{1:t-1}, u_{1:t})
+$$
+
+Hence the new belief is
+
+$$
+\tag{3} bel(x_{t}) = \eta\; p(z_{t}\mid x_{t}) \; \overline{bel}(x_{t})
+$$
+
+We need to expand the terms in $$\overline{bel}(x_{t})$$.
+
+$$
+\tag{4} \overline{bel}(x_{t}) = \int p(x_{t} \mid x_{t-1}, z_{1:t-1}, u_{1:t}) \; p(x_{t-1} \mid z_{1:t-1}, u_{1:t})\;dx_{t-1}
+$$
+
+Once again, we we exploit the assumption that our state is complete. This implies if we know $$x_{t-1}$$, past measurements and controls convey no information regarding the state $$x_{t}$$.
+
+$$
+\tag{4a} p(x_{t} \mid x_{t-1}, z_{1:t-1}, u_{1:t}) = p(x_{t} \mid x_{t-1}, u_{t})
+$$
+
+Now we just need to substitute equation 4a into equation 4 to get the final recursive update equation. Also note that control $$u_{t}$$can be safely omitted from the set of conditional variables for randomly chosen controls.
+
+$$
+\tag{5} \overline{bel}(x_{t}) = \int p(x_{t} \mid x_{t-1}, u_{t}) \; p(x_{t-1} \mid z_{1:t-1}, u_{1:t-1})\;dx_{t-1}
+$$
+
+To summarize, the Bayes filter algorithm calculates the posterior over the state $$x_{t}$$conditioned on measurement and control data up to time $$t$$. The derivation assumes that the world is Markov, that is, the state is complete. Any concrete implementation of this algorithm requires three probability distributions.
+
+1. Initial belief $$p(x_{0})$$
+2. Measurement probability $$p(z_{t} \mid x_{t})$$
+3. State transition probability $$p(x_{t} \mid u_{t}, x_{t-1})$$
+
+### The Markov Assumption
+
+The Markov assumption postulates that past and future data re independent if one knows the current state $$x_{t}$$ and it must be complete. The problem is that in real world application, we have no way to know the complete state at any given time. There are many factors that may induce violations of the Markov assumption.
+
+* Unmodeled dynamics in the environment are not included in the state, e.g. moving people
+* Inaccuracies in the probabilistic models and distributions
+* Approximation errors
+* Software variables in the robot control software
+
+There are many algorithms and techniques derived from the Bayes filter. Each of them relies on a different assumptions regarding the measurement, state transition probabilities, and the initial belief. The assumptions give rise to different computational characteristics. 
+
+* Computational efficiency
+* Accuracy of approximation
+* Ease of implementation
+
