@@ -22,9 +22,6 @@ C = array([
 
 
 def predict_new_belief(x, x_cov, u, u_cov):
-    """
-    u_cov is the control or process noise
-    """
     x = dot(A, x) + dot(B, u)
     x_cov = dot(dot(A, x_cov), A.T) + u_cov
     return x, x_cov
@@ -39,13 +36,13 @@ def incorporate_measurement(x, x_cov, z, z_cov):
     return x, x_cov
 
 
-def kalman_filter(x, x_cov, U, u_cov, Z, z_cov):
+def kalman_filter(x, x_cov, u, u_cov, Z, z_cov):
     """Performs Kalman filter algorithm
 
     Args:
         x (np.array): Mean value of initial state
         x_cov (np.array): Coariance of initial state
-        U (list[np.array]): List of controls
+        u (np.array): Control input
         u_cov (np.array): Covariance of control
         Z (list[np.array]): List of measurements
         z_cov (np.array): Coariance of measurement
@@ -54,11 +51,8 @@ def kalman_filter(x, x_cov, U, u_cov, Z, z_cov):
         float: predicted mean of current state
         float: predicted variance of current state
     """
-    if len(Z) != len(U):
-        raise ValueError("measurements and controls are not same length")
-
-    for i in range(len(U)):
-        x, x_cov = predict_new_belief(x, x_cov, U[i], u_cov)
+    for i in range(len(Z)):
+        x, x_cov = predict_new_belief(x, x_cov, u, u_cov)
         x, x_cov = incorporate_measurement(x, x_cov, Z[i], z_cov)
 
     return x, x_cov
@@ -75,10 +69,9 @@ x_cov = array([
 ])
 
 # No external control command
-U = array([
-    [[0], [0]],
-    [[0], [0]],
-    [[0], [0]],
+u = array([
+    [0],
+    [0],
 ])
 
 # u_cov is usually denoted as R which represents the control covariance/uncertainty
@@ -99,6 +92,6 @@ z_cov = array([
     [1],
 ])
 
-mean, cov = kalman_filter(x, x_cov, U, u_cov, Z, z_cov)
+mean, cov = kalman_filter(x, x_cov, u, u_cov, Z, z_cov)
 print('mean\n', mean)
 print('cov\n', cov)
