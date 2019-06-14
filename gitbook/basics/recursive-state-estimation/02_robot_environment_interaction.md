@@ -57,3 +57,4 @@ $$
 $$
 
 Calculating $$bel(x_{t})$$ from $$\overline{bel(x_{t})}$$ is called correction or measurement update.
+

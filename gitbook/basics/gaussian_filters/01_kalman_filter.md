@@ -65,22 +65,109 @@ $$
 Given arguments $$\mu_{t-1}$$, $$\Sigma_{t-1}$$, $$u_{t}$$, and $$z_{t}$$, we have the following update rules.
 
 $$
-\tag{3a} \overline{\mu_{t}} = A_{t}\mu_{t-1} + B_{t}u_{t} \\
+\tag{3a} \overline{\mu_{t}} = A_{t}\mu_{t-1} + B_{t}u_{t} \\\;\\
 \overline{\Sigma_{t}} = A_{t}\Sigma_{t-1}A_{t-1}^{T} + R_{t}
 $$
 
 The predicted belief $$\overline{\mu_{t}}$$ and $$\overline{\Sigma_{t}}$$ are calculated to represent the belief $$\overline{bel}(x_{t})$$, one time step later, but before incorporating the measurement $$z_{t}$$.
 
 $$
-\tag{3b} K_{t} = \frac{\overline{\Sigma}_{t} C_{t}^{T} }{C_{t}\overline{\Sigma}C_{t}^{T} + Q_{T}}
+\tag{3b} K_{t} = \overline{\Sigma}_{t} C_{t}^{T} (C_{t}\overline{\Sigma}C_{t}^{T} + Q_{T})^{-1}
 $$
 
 Before we perform the measurement update, we need to compute Kalman gain from equation 3b, which specifies the degree to which the measurement is incorporated into the new state estimate. Then we use the gain to get the new state.
 
 $$
-\tag{3c} \mu_{t} = \overline{\mu_{t}} + K_{t}(z_{t} - C_{t}\overline{\mu_{t}}) \\
+\tag{3c} \mu_{t} = \overline{\mu_{t}} + K_{t}(z_{t} - C_{t}\overline{\mu_{t}}) \\\;\\
 \Sigma_{t} = (I - K_{t}C_{t})\overline{\Sigma_{t}}
 $$
 
 The key concept here is innovation, which is the difference between the actual measurement and expected measurement, denoted by $$z_{t} - C_{t}\overline{\mu_{t}}$$ .
+
+### Code Example
+
+For simplicity sake, I will omit the time dependence for transformation matrices. Let's define three matrices `A`, `B`, and `C` using `numpy` . Note that `A` is the state transition model or function, `B` is the control input model, and `C` is the observation model. 
+
+```python
+A = np.array([[1.0, 1.0], [0.0, 1.0]])
+B = np.array([[1.0, 0.0], [0.0, 1.0]])
+C = np.array([[1.0, 0.0]])
+```
+
+If we were to express them in matrix form, they would look like the following.
+
+$$
+A = \begin{vmatrix}
+1.0 & 1.0 \\ 0.0 & 1.0
+\end{vmatrix}
+\\\;\\
+B = \begin{vmatrix}
+1.0 & 0.0 \\ 0.0 & 1.0
+\end{vmatrix}
+\\\;\\
+C = \begin{vmatrix}
+1.0 & 0.0
+\end{vmatrix}
+$$
+
+Suppose our robot is at coordinate $$(0.0, 0.0)$$ initially and we don't apply any external control to it. Let's denote `x` to be $$\mu$$, `x_cov` to be $$\Sigma$$, `u` to be $$u$$, and `u_cov` to be $$R$$.
+
+```python
+x = np.array([[0.0], [0.0]])
+x_cov = np.array([[1000.0, 0.0], [0.0, 1000.0]])
+u = np.array([[0.0], [0.0]])
+u_cov = np.array([[0.0, 0.0], [0.0, 0.0]])
+```
+
+$$
+\mu = \begin{vmatrix}
+0 \\ 0
+\end{vmatrix}
+\;
+\Sigma = \begin{vmatrix}
+1000.0 & 0.0 \\ 0.0 & 1000.0
+\end{vmatrix}
+\\\;\\
+u = \begin{vmatrix}
+0.0 \\ 0.0
+\end{vmatrix}\;
+R = \begin{vmatrix}
+0.0 & 0.0 \\ 0.0 & 0.0
+\end{vmatrix}
+$$
+
+Let `Z` to be $$(z_{0}, z_{1}, z_{2}, ...)$$and `z_cov` to be $$Q$$.
+
+```python
+Z = [np.array([[1]]), np.array([[2]]), np.array([[3]])
+z_cov = np.array([[1]])
+```
+
+$$
+z_{0} = \begin{vmatrix} 1 \end{vmatrix} \; z_{1} = \begin{vmatrix} 2 \end{vmatrix} etc...\\\;\\
+Q = \begin{vmatrix} 0 \end{vmatrix}
+$$
+
+Now we can put everything together and construct a Kalman filter algorithm.
+
+```python
+def predict_new_belief(x, x_cov, u, u_cov):
+    x = dot(A, x) + dot(B, u)
+    x_cov = dot(dot(A, x_cov), A.T) + u_cov
+    return x, x_cov
+
+
+def incorporate_measurement(x, x_cov, z, z_cov):
+    S = dot(dot(C, x_cov), C.T) + z_cov
+    K = dot(dot(x_cov, C.T), linalg.inv(S))
+
+    x = x + dot(K, z - C.dot(x))
+    x_cov = dot(identity(2) - dot(K, C), x_cov)
+    return x, x_cov
+
+
+for i in range(len(Z)):
+    x, x_cov = predict_new_belief(x, x_cov, u, u_cov)
+    x, x_cov = incorporate_measurement(x, x_cov, Z[i], z_cov)
+```
 
