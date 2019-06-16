@@ -10,6 +10,7 @@
   * [Bayes Filters](basics/recursive-state-estimation/03_bayes_filters.md)
 * [Gaussian Filters](basics/gaussian_filters/README.md)
   * [Kalman Filter](basics/gaussian_filters/01_kalman_filter.md)
+  * [Extended Kalman Filter](basics/gaussian_filters/extended-kalman-filter.md)
 * [Nonparametric Filters](basics/nonparametric_filters.md)
 
 ## Localization
