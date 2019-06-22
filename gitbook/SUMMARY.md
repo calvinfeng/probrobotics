@@ -13,8 +13,7 @@
   * [Extended Kalman Filter](basics/gaussian-filters/02-extended-kalman-filter.md)
 * [Nonparametric Filters](basics/nonparametric-filters/README.md)
   * [Histogram Filter](basics/nonparametric-filters/01-histogram-filter.md)
-  * [Binary Bayes Filter](basics/nonparametric-filters/02-binary-bayes-filter.md)
-  * [Particle Filter](basics/nonparametric-filters/03-particle-filter.md)
+  * [Particle Filter](basics/nonparametric-filters/02-particle-filter.md)
 
 ## Localization
 
