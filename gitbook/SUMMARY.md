@@ -14,7 +14,9 @@
 * [Nonparametric Filters](basics/nonparametric-filters/README.md)
   * [Histogram Filter](basics/nonparametric-filters/01-histogram-filter.md)
   * [Particle Filter](basics/nonparametric-filters/02-particle-filter.md)
-
+* [Robot Perception](basics/robot-perception/README.md)
+  * [Beam Models of Range Finders](basics/robot-perception/01-beam-models-of-range-finders.md)
+  * [Likelihood Fields for Range Finders](basics/robot-perception/02-likelihood-fields-for-range-finders.md)
 ## Localization
 
 * [Markov and Gaussian](localization/markov-and-gaussian.md)
