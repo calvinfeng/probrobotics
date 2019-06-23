@@ -17,8 +17,6 @@
 * [Robot Perception](basics/robot-perception/README.md)
   * [Beam Models of Range Finders](basics/robot-perception/01-beam-models-of-range-finders.md)
   * [Likelihood Fields for Range Finders](basics/robot-perception/02-likelihood-fields-for-range-finders.md)
-## Localization
-
-* [Markov and Gaussian](localization/markov-and-gaussian.md)
-* [Grid and Monte Carlo](localization/grid-and-monte-carlo.md)
+* [Markov and Gaussian](basics/markov-and-gaussian.md)
+* [Grid and Monte Carlo](basics/grid-and-monte-carlo.md)
 
