@@ -25,3 +25,7 @@
   * [Monte Carlo Localization](localization/grid-and-monte-carlo/monte-carlo-localization.md)
 * [Markov and Gaussian](localization/markov-and-gaussian.md)
 
+## Projects
+
+* [Mislocalization Heatmap](projects/mislocalization-heatmap.md)
+
