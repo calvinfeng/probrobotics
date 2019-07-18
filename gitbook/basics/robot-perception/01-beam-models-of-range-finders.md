@@ -2,7 +2,7 @@
 
 Ranger finders measure the range to nearby objects. Range may be measured along a beam, which is a good model of the workings of laser range finders, or within a cone, which is the preferable model of ultrasonic sensors.
 
-### Measurement Algorithm
+## Measurement Algorithm
 
 Our model incorporates four types of measurement errors, all of which are essential to making this model work. 
 
@@ -13,7 +13,7 @@ Our model incorporates four types of measurement errors, all of which are essent
 
 The desired model $$p(z_t \mid x_t, m)$$is a mixture of four densities, each of which corresponds to a particular type of error.
 
-#### 1. Correct range with local measurement noise
+### 1. Correct range with local measurement noise
 
 Let us use $$z_t^{k*}$$ to denote the true range of the object measured by $$z_t^{k}$$. In location-based maps, the true range can be determined using ray casting. In feature-based maps, it is usually obtained by searching for the closest feature within a measurement cone.  The measurement noise is usually modeled by a Gaussian with mean $$z_t^{k*}$$and standard deviation $$\sigma_{hit}$$.  We will denote the Gaussian by $$p_{hit}$$. 
 
@@ -37,7 +37,7 @@ $$
 
 The standard deviation is an intrinsic noise parameter of the measurement model. This varies from device to device.
 
-#### 2. Unexpected objects
+### 2. Unexpected objects
 
 Environments of mobile robots are dynamic, where as maps are static. As a result, objects not contained in the map can cause range finders to produce surprisingly short ranges. One way to deal with such objects is to treat them as part of the state vector and estimate their location. Another much simpler approach is to treat them as sensor noise. The object is that closer to the sensor is more likely to measure than the object that is further away. We can describe this situation with an exponential distribution.
 
@@ -57,7 +57,7 @@ $$
 \eta = \frac{1}{1 - e^{-\lambda_{short} z_t^{k*}}}
 $$
 
-#### 3. Failures
+### 3. Failures
 
 Sometimes, obstacles are missed altogether. A typical result of sensor failure is a max-range measurement. The sensor returns its maximum allowable value $$z_{max}$$ because there is material that absorbs laser light beams. We will model this failure with a point-mass distribution centered at $$z_{max}$$.
 
@@ -75,7 +75,7 @@ $$
 p_{rand}(z_t^k \mid x_t, m) = \frac{1}{z_{max}}
 $$
 
-### Beam Model Algorithm
+## Beam Model Algorithm
 
 These four different distributions are now mixed by a weighted average, defined by the parameters $$z_{hit}$$, $$z_{short}$$, $$z_{max}$$, and $$z_{rand}$$. 
 

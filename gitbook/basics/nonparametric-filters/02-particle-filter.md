@@ -1,6 +1,8 @@
 # Particle Filter
 
-The particle filter is just like histogram filter, it approximate the posterior by a finite number of parameters. However, they differ in the way these parameters are generated, and in which they populate the state space. The key idea of the particle filter is to represent the posterior $$bel(x_t)$$by a set of random state samples drawn from this posterior. Such representation is approximate, but it is non-parametric, and therefore can represent a much broader space of distributions than, for example, Gaussian. Another advantage of the sample based representation is its ability to model nonlinear transformations of random variables.
+The particle filter is just like histogram filter, it approximate the posterior by a finite number of parameters. However, they differ in the way these parameters are generated, and in which they populate the state space. 
+
+The key idea of the particle filter is to represent the posterior $$bel(x_t)$$by a set of random state samples drawn from this posterior. Such representation is approximate, but it is non-parametric, and therefore can represent a much broader space of distributions than, for example, Gaussian. Another advantage of the sample based representation is its ability to model nonlinear transformations of random variables.
 
 In particle filter, the samples of a posterior distribution are called _particles_. 
 
@@ -10,7 +12,7 @@ $$
 
 Each particle $$x_t^m$$ is a concrete instantiation of the state at time $$t$$. In other words, a particle is a hypothesis as to what the true world state may be at time $$t$$. Here $$M$$ denotes the number of particles in the particle set $$\chi_t$$. 
 
-### Algorithm
+## Algorithm
 
 $$
 \text{initialize $\overline{\chi}  = \chi = \emptyset$ to be an empty set}\\\;\\
@@ -30,9 +32,9 @@ The intuition behind particle filter is to approximate the belief $$bel(x_t)$$ b
 
 Just like all other Bayes filter algorithm, the particle filter algorithm constructs the new belief recursively from the previous belief one time step earlier. Since the beliefs are represented by a set of particles, the filter constructs the new particle set recursively from the previous particle set.
 
-### Details
+## Details
 
-#### Step One 
+### Step One 
 
 $$
 \text{for $m=1$ to $M$ do:}\\\quad
@@ -67,7 +69,7 @@ class Particle:
 
 Notice that `move` produces a new particle state, it is equivalent to produce a new state given the control which is `turn` and `forward`, and previous state, which is `(self.x, self.y, self.theta)`.
 
-#### Step Two
+### Step Two
 
 $$
 w_t^m = p(z_t \mid x_t^m) \\
@@ -88,7 +90,7 @@ class Particle:
         return prob
 ```
 
-#### Step Three
+### Step Three
 
 $$
 \text{for $m=1$ to $M$ do:}\\
@@ -123,6 +125,36 @@ resamples = []
 for i in range(N):
     resamples.append(np.random.choice(samples, p=weights))
 ```
+
+## Mathematical Derivation
+
+Think of particles as samples of state sequences. One sequence can be described as follows.
+
+$$
+x_{0:t}^m = x_0^m, x_1^m , ..., x_t^m
+$$
+
+Particle filter calculates the posterior over all state sequences.
+
+$$
+bel(x_{0:t}) = p(x_{0:t} \mid u_{1:t}, z_{1:t})
+$$
+
+> Notice that only state has value at $$t=0$$ because first control action and measurement data are applied at $$t = 1$$.
+
+Using the same technique from Bayes' filter derivation.
+
+$$
+p(x_{0:t} \mid z_{1:t}, u_{1:t}) = \eta\;p(z_t \mid x_{0:t}, z_{1,t-1}, u_{1:t}) \; p(x_{0:t} \mid z_{1, t-1}, u_{1:t})
+$$
+
+Apply Markov assumption, that $$x_t$$ is complete and no variables prior to $$x_t$$ may influence the stochastic evolution of future states. \(not yet completed\)
+
+$$
+\text{Markov} \to  \eta\;p(z_t \mid x_{t}) \; p(x_{0:t} \mid z_{1, t-1}, u_{1:t}) \\ = \eta\; p(z_t \mid x_t)\; p(x_t \mid x_{0:t-1}, z_{1:t-1}, u_{1:t})\; p(x_{0:t-1} \mid z_{1:t-1}, u_{1:t}) \\= \eta\; p(z_t \mid x_t) \; p(x_t \mid x_{t-1}, u_t) \; p(x_{0:t-1} \mid z_{1:t-1}, u_{1:t-1})
+$$
+
+
 
 
 

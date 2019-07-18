@@ -5,7 +5,7 @@
 The general Bayesian filter algorithm can be summarized as follows.
 
 ```python
-def new_belief(bel[x[t-1]], u[t], z[t]):
+def new_belief(x[t-1], u[t], z[t]):
     for x_t in X:
         prediction = control_update(u[t], x[t-1])
         bel[x[t]] = measurement_update(z[t], x[t], prediction)
@@ -24,7 +24,7 @@ The measurement update is calculated by the following equation.
 $$
 \text{measurement_update($z_{t}$, $x_{t}$)} = bel(x_{t}) = 
 \frac{p(z_{t} \mid x_{t})\;\overline{bel}(x_{t})}
-{\int p(z_{t} \mid x`_{t})\; \overline{bel}(x`_{t}) dx`_{t}}
+{\int p(z_{t} \mid x^\prime_{t})\; \overline{bel}(x^\prime_{t}) dx^\prime_{t}}
 $$
 
 ## Numerical Example

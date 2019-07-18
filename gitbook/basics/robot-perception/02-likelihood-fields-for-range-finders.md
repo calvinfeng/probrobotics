@@ -1,13 +1,13 @@
 # Likelihood Fields for Range Finders
 
-### Limitations of Beam Models
+## Limitations of Beam Models
 
 The beam-based model exhibits a _lack of smoothness_. In cluttered environments with many small obstacles, the distribution of $$p(z_t^k \mid x_t, m)$$ can be very unsmooth in $$x_t$$. That means the measurement model is highly discontinuous which leads to two problematic consequences.
 
 1. Any approximate belief representation runs the danger of missing the correct state, as nearby states might have drastically different posterior likelihoods. 
 2. Hill-climbing methods for finding the most likely state are prone to local minima, due to the large number of local maxima in such unsmooth models. 
 
-### Likelihood Fields
+## Likelihood Fields
 
 An alternative model to overcome above limitations is the use of likelihood fields. The resulting posteriors of likelihood field computation are much smoother even in cluttered space. The key idea is to first project the endpoints of a sensor scan $$z_t$$ into the global coordinate space of the map. 
 

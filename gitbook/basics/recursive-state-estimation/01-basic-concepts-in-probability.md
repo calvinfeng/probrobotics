@@ -69,16 +69,16 @@ $$
 We can apply **Bayes Rule**.
 
 $$
-p\,(x \mid y) = \frac{ p\,(y \mid x) p(x) }{ p(y) } = \frac{ p\,(y \mid x) p(x) } { \sum_{x`} p\,(y \mid x`) p(x`)}
+p\,(x \mid y) = \frac{ p\,(y \mid x) p(x) }{ p(y) } = \frac{ p\,(y \mid x) p(x) } { \sum_{x^\prime} p\,(y \mid x^\prime) p(x^\prime)}
 $$
 
 In integral form,
 
 $$
-\frac{ p\,(y \mid x) p(x) } { \int p\,(y \mid x`) p(x`) dx`}
+\frac{ p\,(y \mid x) p(x) } { \int p\,(y \mid x^\prime) p(x^\prime) dx^\prime}
 $$
 
-If $$x$$ is a quantity that we would like to inrefer from $$y$$, the probability $$p(x)$$ is referred as **prior probabilitydistribution** and $$y$$ is called data, e.g. laser measurements. $$p(x \mid y)$$ is called **posterior probability distribution** over $$X$$.
+If $$x$$ is a quantity that we would like to infer from $$y$$, the probability $$p(x)$$ is referred as **prior probability distribution** and $$y$$ is called data, e.g. laser measurements. $$p(x \mid y)$$ is called **posterior probability distribution** over $$X$$.
 
 In robotics, $$p(y \mid x)$$ is called **generative model**. Since $$p(y)$$ does not depend on $$x$$, $$p(y)^{-1}$$ is often written as a normalizer in Bayes rule variables.
 
@@ -149,7 +149,7 @@ $$
 In integral form,
 
 $$
-\frac{ p(y \mid x) p(x) } { \int p(y \mid x`) p(x`) dx`}
+\frac{ p(y \mid x) p(x) } { \int p(y \mid x^\prime) p(x^\prime) dx^\prime}
 $$
 
 If $$x$$ is a quantity that we would like to infer from $$y$$, the probability $$p(x)$$ is referred as **prior probability distribution** and $$y$$ is called data, e.g. laser measurements. $$p(x \mid y)$$ is called **posterior probability distribution** over $$X$$.
@@ -174,7 +174,7 @@ $$
 p\,(x, y \mid z) = p(x \mid z)p(y \mid z)
 $$
 
-However, conditional independence does not imply absolute indenpendence, that is
+However, conditional independence does not imply absolute independence, that is
 
 $$
 p\,(x, y \mid z) = p(x \mid z)p(y \mid z) \neq p(x,y) = p(x)p(y)

@@ -1,10 +1,10 @@
 # Kalman Filter
 
-### Linear Gaussian Systems
+## Linear Gaussian Systems
 
 The Kalman filter implements belief computational for continuous state. It is not applicable to discrete or hybrid state spaces. The filter represents belief by moments parameterization. At time $$t$$, the belief is represented by the mean $$\mu_{t}$$ and the covariance $$\Sigma_{t}$$. Posteriors are Gaussian if the following three properties hold in addition to Markov assumption. 
 
-#### 1. Linear Transition
+### 1. Linear Transition
 
 The state transition probability $$p(x_{t} \mid u_{t}, x_{t-1})$$ must be a linear function in its arguments with added Gaussian noises.
 
@@ -32,7 +32,7 @@ p(x_{t} \mid u_{t}, x_{t-1}) = det(2\pi R_{t})^{-0.5} \; \exp\left[
 \right]
 $$
 
-#### 2. Linear Measurement
+### 2. Linear Measurement
 
 The measurement probability $$p(z_{t} \mid x_{t})$$ must also be linear with added Gaussian noise.
 
@@ -50,7 +50,7 @@ p(z_{t}\mid x_{t}) = det(2\pi Q_{t})^{-0.5} \exp
 \right]
 $$
 
-#### 3. Normal Belief
+### 3. Normal Belief
 
 The initial belief $$bel(x_{0})$$ must be normally distributed with mean $$\mu_{0}$$ and covariance $$\Sigma_{0}$$.
 
@@ -60,7 +60,7 @@ bel(x_{0})= p(x_{0}) = det(2\pi\Sigma_{0})^{-0.5} \exp\left[
 \right]
 $$
 
-### Kalman Filter Algorithm
+## Kalman Filter Algorithm
 
 Given arguments $$\mu_{t-1}$$, $$\Sigma_{t-1}$$, $$u_{t}$$, and $$z_{t}$$, we have the following update rules.
 
